@@ -20,6 +20,6 @@ jobs:
           curl -X POST \
             -F token=$GITLAB_TRIGGER_TOKEN \
             -F ref=main \
-            https://gitlab.com/api/v4/projects/YOUR_ENCODED_PROJECT_ID/trigger/pipeline
+            https://gitlab.com/ergril/docker-phpbb/-/tree/142a2c63e4c479be3a36c8ffb3387da7d74ec430/
         env:
           GITLAB_TRIGGER_TOKEN: ${{ secrets.GITLAB_TRIGGER_TOKEN }} 
