@@ -1,0 +1,25 @@
+name: Trigger GitLab Pipeline on phpBB update
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # vérifie chaque heure
+  workflow_dispatch:
+
+jobs:
+  check-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest phpBB release tag
+        id: get_tag
+        run: |
+          latest=$(curl -s https://api.github.com/repos/phpbb/phpbb/releases/latest | jq -r '.tag_name')
+          echo "tag=$latest" >> $GITHUB_OUTPUT
+
+      - name: Trigger GitLab Pipeline
+        run: |
+          curl -X POST \
+            -F token=$GITLAB_TRIGGER_TOKEN \
+            -F ref=main \
+            https://gitlab.com/api/v4/projects/YOUR_ENCODED_PROJECT_ID/trigger/pipeline
+        env:
+          GITLAB_TRIGGER_TOKEN: ${{ secrets.GITLAB_TRIGGER_TOKEN }} 
