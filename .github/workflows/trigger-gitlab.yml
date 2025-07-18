@@ -12,7 +12,7 @@ jobs:
       - name: Get latest phpBB release tag
         id: get_tag
         run: |
-          latest=$(curl -s https://api.github.com/repos/phpbb/phpbb/releases/latest | jq -r '.tag_name')
+          latest=$(curl -s https://api.github.com/repos/phpbb/phpbb/tags | jq -r '.[0].name)
           echo "tag=$latest" >> $GITHUB_OUTPUT
 
       - name: Trigger GitLab Pipeline
